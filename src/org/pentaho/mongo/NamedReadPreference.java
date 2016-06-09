@@ -60,13 +60,17 @@ public enum NamedReadPreference {
 
     switch ( this ) {
       case PRIMARY_PREFERRED:
-        return ReadPreference.primaryPreferred( firstTagSet, remainingTagSets );
+//        return ReadPreference.primaryPreferred( firstTagSet, remainingTagSets );
+        return ReadPreference.primaryPreferred();
       case SECONDARY:
-        return ReadPreference.secondary( firstTagSet, remainingTagSets );
+//        return ReadPreference.secondary( firstTagSet, remainingTagSets );
+        return ReadPreference.secondary();
       case SECONDARY_PREFERRED:
-        return ReadPreference.secondaryPreferred( firstTagSet, remainingTagSets );
+//        return ReadPreference.secondaryPreferred( firstTagSet, remainingTagSets );
+        return ReadPreference.secondaryPreferred();
       case NEAREST:
-        return ReadPreference.nearest( firstTagSet, remainingTagSets );
+//        return ReadPreference.nearest( firstTagSet, remainingTagSets );
+        return ReadPreference.nearest();
       default:
         return ( pref instanceof TaggableReadPreference ) ? pref : null;
     }

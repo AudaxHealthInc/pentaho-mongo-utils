@@ -143,7 +143,7 @@ class MongoPropToOption {
     if ( !Util.isEmpty( writeConcern ) && Util.isEmpty( wTimeout ) && !journaled ) {
       // all defaults - timeout 0, journal = false, w = 1
       concern = new WriteConcern();
-      concern.setWObject( 1 );
+      concern.withW( 1 );
 
       if ( log != null ) {
         log.info(
@@ -175,7 +175,7 @@ class MongoPropToOption {
 
       if ( log != null ) {
         String lwc =
-            "w = " + concern.getWString() + ", wTimeout = " + concern.getWtimeout() + ", journaled = " + concern.getJ();
+            "w = " + concern.getWObject() + ", wTimeout = " + concern.getWtimeout() + ", journaled = " + concern.getJ();
         log.info( getString( PKG, "MongoPropToOption.Message.ConfiguringWithWriteConcern", lwc ) );
       }
     }

@@ -64,6 +64,9 @@ public class MongoProperties {
     for ( MongoProp prop : MongoProp.values() ) {
       prop.setOption( builder, this, propToOption );
     }
+
+    builder.sslEnabled(true).sslInvalidHostNameAllowed(true);
+
     return builder.build();
   }
 

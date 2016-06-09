@@ -133,7 +133,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
       try {
         ServerAddress s = new ServerAddress( host, port );
         serverList.add( s );
-      } catch ( UnknownHostException u ) {
+      } catch ( RuntimeException u ) {
         throw new MongoDbException( u );
       }
     }
