@@ -59,6 +59,10 @@ class UsernamePasswordMongoClientWrapper extends NoAuthMongoClientWrapper {
   /**
    * Create a credentials object
    *
+   * Supports special notation for username field, if it has a '@' symbol, prefix will be considered a
+   * username, suffix is an account's source database. Through this mechanism accounts that are created in
+   * Mongo's 'admin' database and granted permissions to other databases are supported.
+   *
    * @return a configured MongoCredential object
    */
   @Override
@@ -66,12 +70,25 @@ class UsernamePasswordMongoClientWrapper extends NoAuthMongoClientWrapper {
     List<MongoCredential> credList = new ArrayList<MongoCredential>();
 
     String database = props.get(MongoProp.DBNAME);
-    if (database == null) {
-      database = "admin";
+
+    String username;
+
+    String principal = props.get(MongoProp.USERNAME);
+    String[] principalSegments = principal.split("@");
+    if (principalSegments.length == 1) {
+      if (database == null) {
+        database = "admin";
+      }
+      username = principal;
+    } else if (principalSegments.length == 2) {
+      username = principalSegments[0];
+      database = principalSegments[1];
+    } else {
+      throw new IllegalArgumentException("Illegal username '" + principal + "' it should either have one '@' or none");
     }
 
     credList.add( MongoCredential.createCredential(
-        props.get( MongoProp.USERNAME ),
+        username,
         database,
         props.get( MongoProp.PASSWORD ).toCharArray() ) );
     return credList;
